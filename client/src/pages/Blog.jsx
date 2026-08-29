@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { assets, blog_data } from '../assets/assets'
+import { assets, blog_data , comments_data } from '../assets/assets'
 import Navbar from '../components/Navbar'
 import Moment from 'moment'
 
@@ -8,14 +8,20 @@ function Blog() {
   const {id} = useParams()
 
   const [data,setData] = useState(null)
+  const [comments,setComments] = useState([])
 
   const fetchBlogData = async ()=>{
    const data = blog_data.find(item=>item._id === id)
    setData(data)
   }
 
+  const fetchComments = async () => {
+    setComments(comments_data)
+  }
+
   useEffect(()=>{
     fetchBlogData()
+    fetchComments()
   },[])
 
   return data ?  (
@@ -36,6 +42,18 @@ function Blog() {
         <img src={data.image} alt="" className='rounded-3xl mb-5' />
 
       <div className='rich-text max-w-3xl mx-auto' dangerouslySetInnerHTML={{__html:data.description}}></div>
+
+      {/* comments section */}
+      <div className='mt-14 mb-10 max-w-3xl mx-auto'>
+        <p>Comments ({comments.length}) </p>
+        <div className='flex flex-col gap-4'>
+            {comments.map((item,index)=>(
+              <div key={index} className='relative bg-primary/2 border border-primary/5 max-w-xl p-4 rounded text-gray-600' >
+                <div></div>
+              </div>
+            ))}
+        </div>
+      </div>
 
     </div>  
 
