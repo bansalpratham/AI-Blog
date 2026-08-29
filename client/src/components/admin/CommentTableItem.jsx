@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { assets } from '../../assets/assets';
 
@@ -16,7 +17,7 @@ const CommentTableItem = ({comment , fetchComments}) => {
             <b className='font-medium text-gray-600'>Comment</b> : {comment.content}
       </td>
       <td className='px-6 py-4 max-sm:hidden'>
-        {BlogDate.toLocaleDateString()}
+        {new Date(createdAt).toLocaleDateString()}
       </td>
       <td className='px-6 py-4'>
         <div className='inline-flex items-center gap-4'>
