@@ -13,6 +13,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get('/',(req,res)=>res.send("API is now working"))
+
 app.use('/api/admin',adminRouter)
 
 const PORT = process.env.PORT || 3000

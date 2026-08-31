@@ -1,3 +1,4 @@
+import imagekit from "../configs/imageKit"
 import Blog from "../models/Blog"
 
 export const addBlog = async (req,res)=>{
@@ -10,9 +11,30 @@ export const addBlog = async (req,res)=>{
             return res.json({success:fasle , missing:"Missing reuired fields"})
         }
 
-        const blog = Blog.create({
-            
+        const fileBuffer = fs.readFileSync(imageFile.path)
+
+        const response = await imagekit.upload({
+            file: fileBuffer,
+            fileName: imageFile.originalname,
+            folder: "/blogs"
         })
+
+        const optimizedImageUrl = imagekit.url({
+            path: response.filePath,
+            transformation:[
+                {quality: 'auto'},
+                {format: 'webp'},
+                {width: '1280'}
+            ]
+        });
+
+        const image = optimizedImageUrl;
+
+        await Blog.create({
+            title,subTitle,description,category,image,isPublished
+        })
+
+        res.json({success: true , message:"Blog added successfully"})
 
     } catch (error) {
         
