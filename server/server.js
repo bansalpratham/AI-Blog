@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import connectDb from './configs/db.js'
 import adminRouter from './routes/adminRoutes.js'
+import blogRouter from './routes/blogRoutes.js'
 dotenv.config()
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(express.json())
 app.get('/',(req,res)=>res.send("API is now working"))
 
 app.use('/api/admin',adminRouter)
+app.use('/api/blog',blogRouter)
 
 const PORT = process.env.PORT || 3000
 
