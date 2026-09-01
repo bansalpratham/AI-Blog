@@ -43,3 +43,36 @@ export const addBlog = async (req,res)=>{
         })
     }
 }
+
+export const getAllBlogs = async (req,res)=>{
+    try {
+        const blogs = await Blog.find({isPublished: true})
+        res.json({success: true , blogs})
+    } catch (error) {
+        res.json({success: false , message: error.message })
+    }
+}
+
+export const getBlogById = async ()=>{
+    try {
+        const {blogId} = req.parse;
+        const blog = await Blog.findById(blogId)
+        if (!blog)
+        {
+            return res.json({success: false , message:"Blog not Found"})
+        }
+        res.json({success: true , blog})
+    } catch (error) {
+        res.json({success: false , message: error.message})
+    }
+}
+
+export const deleteBlogById = async ()=>{
+    try {
+        const {id} = req.body;
+        await Blog.findByIdAndDelete(id)
+        res.json({success: true , message:'Blog deleted Successfully'})
+    } catch (error) {
+        res.json({success: false , message: error.message})
+    }
+}
