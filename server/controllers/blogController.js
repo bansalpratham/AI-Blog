@@ -1,6 +1,6 @@
-import imagekit from "../configs/imageKit"
-import Blog from "../models/Blog"
-import Comment from "../models/Comment"
+import imagekit from "../configs/imageKit.js"
+import Blog from "../models/Blog.js"
+import Comment from "../models/Comment.js"
 
 export const addBlog = async (req,res)=>{
     try {
