@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react"
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
@@ -23,6 +24,16 @@ export const AppProvider = ({ children })=>{
             toast.error(error.message)
         }
     }
+
+    useEffect(()=>{
+        fetchBlogs();
+        const token = localStorage.getItem('token')
+        if (token)
+        {
+            setToken(token)
+            axios.defaults.headers.common['Authorization'] = `${token}`;
+        }
+    },[])
 
     const value = {
         axios,navigate,token,setToken , blogs,setBlogs,input,setInput
