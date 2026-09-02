@@ -1,6 +1,7 @@
 import imagekit from "../configs/imageKit.js"
 import Blog from "../models/Blog.js"
 import Comment from "../models/Comment.js"
+import fs from 'fs'
 
 export const addBlog = async (req,res)=>{
     try {
@@ -9,7 +10,10 @@ export const addBlog = async (req,res)=>{
 
         if (!title || !description || !category || !imageFile)
         {
-            return res.json({success:fasle , missing:"Missing reuired fields"})
+            return res.json({
+    success: false,
+    message: "Missing required fields"
+})
         }
 
         const fileBuffer = fs.readFileSync(imageFile.path)
@@ -56,7 +60,7 @@ export const getAllBlogs = async (req,res)=>{
 
 export const getBlogById = async (req,res)=>{
     try {
-        const {blogId} = req.parse;
+        const {blogId} = req.params;
         const blog = await Blog.findById(blogId)
         if (!blog)
         {
@@ -111,7 +115,7 @@ export const addComment = async (req,res)=>{
     }
 }
 
-export const getBlogComments = async ()=>{
+export const getBlogComments = async (req,res)=>{
     try {
         const {blogId} = req.body;
         const comments = await Comment.find({blog: blogId , isApproved: true }).sort({createdAt: -1});
