@@ -4,7 +4,7 @@ const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY
 });
 
-const generateContent = async (prompt) => {
+const generateAIContent  = async (prompt) => {
 
     const response = await ai.models.generateContent({
         model: "gemini-3.7-flash",
@@ -14,4 +14,4 @@ const generateContent = async (prompt) => {
     return response.text;
 };
 
-export default generateContent;
+export default generateAIContent ;
