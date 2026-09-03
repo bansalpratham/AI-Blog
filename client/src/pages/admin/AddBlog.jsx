@@ -4,12 +4,14 @@ import { assets, blogCategories } from '../../assets/assets'
 import Quill from 'quill'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast'
+import {parse} from 'marked'
 
 function AddBlog() {
 
   const { axios } = useAppContext()
 
   const [isAdding, setIsAdding] = useState(false)
+  const [loading , setLoading] = useState(false)
 
   const editorRef = useRef(null)
 
@@ -22,7 +24,24 @@ function AddBlog() {
   const [isPublished, setIsPublished] = useState(false)
 
   const generateContent = async () => {
-
+        if (!title)
+        {
+          return toast.error
+        }
+        try {
+          setLoading(true);
+          const {data} = await axios.post('/api/blog/generate' , {prompt : title})
+          if (data.success){
+            quillRef.current.root.innerHTML = parse(data.content)
+          }else
+          {
+            toast.error(data.message)
+          }
+        } catch (error) {
+          toast.error(error.message)
+        }finally{
+          setLoading(false)
+        }
   }
 
   const onSubmitHandler = async (e) => {
