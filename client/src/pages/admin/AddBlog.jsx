@@ -171,6 +171,7 @@ function AddBlog() {
           <div ref={editorRef}></div>
 
           <button
+          disabled = {loading}
             type='button'
             onClick={generateContent}
             className='absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer'
